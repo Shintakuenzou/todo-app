@@ -5,7 +5,7 @@
  <a href="#Tecnologias" style="color:white;">Tecnologias</a> •
 </p>
 
-<img src="./public/bannerTodo.png" />
+<img src="./.github/bannerTodo.png" />
 
 ## Projeto
 
