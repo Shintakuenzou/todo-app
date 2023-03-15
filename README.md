@@ -19,7 +19,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ### Front-End
 
-- Radix-UI (checlBox e dialog)
+- Radix-UI (checkBox e dialog)
 - React
 - JavaScript
 - Phosphor-react
