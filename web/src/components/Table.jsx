@@ -1,11 +1,14 @@
 import axios from "axios";
 import { ArrowUUpLeft, MagnifyingGlass } from "phosphor-react";
-import { useContext, useState } from "react";
-import { context } from "../context/ContextProvider";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setLists, updateLists } from "../store/slices";
 import { TableData } from "./TableData";
 
 export function Table() {
-  const { lists, setLists, updateList, URL } = useContext(context);
+  let lists = useSelector((state) => state.todo.lists);
+  const dispatch = useDispatch();
+
   const [searchTask, setSearchTask] = useState("");
 
   async function handleSearchTask() {
@@ -15,15 +18,14 @@ export function Table() {
         ? `&description__regex=/${searchTask}/i`
         : ""
     );
+    console.log(searchs);
 
-    await axios.get(`${URL}?sort=-createdAt${searchs}`).then((resp) => {
-      setLists(searchs);
-      searchTask.length === 0 && updateList();
-    });
+    dispatch(setLists(searchs));
+    searchTask.length === 0 && dispatch(updateLists());
   }
 
   function handleReturnValue() {
-    updateList();
+    dispatch(updateLists());
     setSearchTask("");
   }
 
@@ -41,7 +43,7 @@ export function Table() {
         <input
           type="text"
           placeholder="Pesquisa sua tarefa..."
-          className="h-7 w-2/3 mr-3 p-5 text-white text-lg bg-zinc-800 placeholder:pl-2 placeholder:text-zinc-500 placeholder:ml-2 
+          className="h-7 w-2/3 mr-3 p-5 text-white text-lg bg-zinc-800 placeholder:pl-2 placeholder:text-zinc-500 placeholder:ml-2
           outline-none border-0 font-semibold focus:ring-2 focus:outline-emerald-700 rounded-lg"
           onChange={(e) => setSearchTask(e.target.value)}
           onKeyUp={handleKeyUp}
@@ -49,7 +51,7 @@ export function Table() {
         />
         <button
           type="button"
-          className="w-14 pl-2 flex items-center justify-center rounded-lg outline-none 
+          className="w-14 pl-2 flex items-center justify-center rounded-lg outline-none
           focus:ring-2 focus:outline-emerald-700 border border-zinc-700 hover:bg-indigo-700 transition-colors"
           onClick={handleSearchTask}
         >
@@ -57,7 +59,7 @@ export function Table() {
         </button>
         <button
           type="button"
-          className="w-14 pl-2 flex items-center justify-center ml-2 rounded-lg outline-none 
+          className="w-14 pl-2 flex items-center justify-center ml-2 rounded-lg outline-none
           focus:ring-2 focus:outline-emerald-700 border border-zinc-700 hover:bg-indigo-700 transition-colors"
           onClick={handleReturnValue}
         >

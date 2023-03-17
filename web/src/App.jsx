@@ -1,16 +1,20 @@
 import { Header } from "./components/Header";
 import { Table } from "./components/Table";
-import { ContextProvider } from "./context/ContextProvider";
 
+import { useDispatch } from "react-redux";
+import { updateLists } from "./store/slices";
+import { useEffect } from "react";
 import "./style/global.css";
 
 export function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(updateLists());
+  }, []);
   return (
-    <div className="bg-zinc-900 h-screen">
-      <ContextProvider>
-        <Header />
-        <Table />
-      </ContextProvider>
+    <div className="h-screen">
+      <Header />
+      <Table />
     </div>
   );
 }

@@ -1,21 +1,29 @@
-import { useContext, useState } from "react";
 import axios from "axios";
-
+import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Plus, X } from "phosphor-react";
-import { context } from "../context/ContextProvider";
+import { useDispatch } from "react-redux";
 
-const URL = "http://localhost:3003/api/todos";
+import { updateLists, URL } from "../store/slices";
 
 export function Header() {
   const [description, setDescription] = useState("");
-  const { updateList } = useContext(context);
+  const dispatch = useDispatch();
 
   function newTask() {
     axios.post(URL, { description }).then(() => {
-      updateList()
-      setDescription("")
+      dispatch(updateLists());
+      setDescription("");
     });
+  }
+
+  function handleKeyUp(e) {
+    if (e.key === "Enter") {
+      axios.post(URL, { description }).then(() => {
+        dispatch(updateLists());
+        setDescription("");
+      });
+    }
   }
 
   return (
@@ -25,7 +33,7 @@ export function Header() {
       <Dialog.Root>
         <Dialog.Trigger
           type="button"
-          className="text-white font-semibold border rounded-lg px-6 py-4 flex items-center bg-indigo-700 hover:bg-indigo-600 
+          className="text-white font-semibold border rounded-lg px-6 py-4 flex items-center bg-indigo-700 hover:bg-indigo-600
           transition-colors"
         >
           <Plus size={20} />
@@ -54,6 +62,7 @@ export function Header() {
                 className="p-2 w-full bg-zinc-700 rounded-lg focus:outline-none text-white"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                onKeyUp={handleKeyUp}
               />
             </div>
             <div className="mt-7 flex justify-end">

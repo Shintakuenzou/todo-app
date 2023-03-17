@@ -1,34 +1,34 @@
-import { useContext } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import axios from "axios";
 import { Check, Trash } from "phosphor-react";
-
-import { context } from "../context/ContextProvider";
+import { updateLists } from "../store/slices";
 
 export function TableData() {
-  const { lists, updateList } = useContext(context);
-
+  const lists = useSelector((state) => state.todo.lists);
+  const dispatch = useDispatch();
+  
   async function handleCheckTask(list, id) {
     await axios
       .put(`http://localhost:3003/api/todos/${id}`, { ...list, done: true })
-      .then(() => updateList());
+      .then(() => dispatch(updateLists()));
   }
 
   async function handlePendingTask(list, id) {
     await axios
       .put(`http://localhost:3003/api/todos/${id}`, { ...list, done: false })
-      .then(() => updateList());
+      .then(() => dispatch(updateLists()));
   }
 
   async function handleRemove(id) {
     await axios
       .delete(`http://localhost:3003/api/todos/${id}`)
-      .then(() => updateList());
+      .then(() => dispatch(updateLists()));
   }
 
   return (
     <>
-      {lists.map((list) => {
+      {lists?.map((list) => {
         const date = new Date(list.createdAt);
         const description = list.description;
         const checked = list.done;
