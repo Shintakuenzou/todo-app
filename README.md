@@ -5,7 +5,7 @@
  <a href="#Tecnologias" style="color:white;">Tecnologias</a> •
 </p>
 
-<img src="./public/bannerTodo.png" />
+<img src="./.github/bannerTodo.png" />
 
 ## Projeto
 
@@ -19,7 +19,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ### Front-End
 
-- Radix-UI (checlBox e dialog)
+- Radix-UI (checkBox e dialog)
 - React
 - JavaScript
 - Phosphor-react
